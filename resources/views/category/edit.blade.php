@@ -18,9 +18,9 @@
             </div>
         </div>
             <div class="card-body">
-                <form action="{{url('categories/'.$category->id.'/edit')}}" method="POST">
+                <form action="<?=route('update',$category->id)?>" method="POST">
                         @csrf
-                        @method('PUT')
+                    
                         <div class="mb-3">
                             <label >Title</label>
                             <input type="text" name="title" value="{{$category->title}}">

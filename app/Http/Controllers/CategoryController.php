@@ -6,6 +6,8 @@ use App\Models\Category;
 use Faker\Guesser\Name;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class CategoryController extends Controller
 {
@@ -43,14 +45,14 @@ class CategoryController extends Controller
 
     public function update(Request $request , int $id)
     {
-        $request -> validate([
-            'title' =>'required|max:15|string',
-            'descripton' =>'required|max:100|string',
-        ]);
+        // dd($request->all(), $id);
 
-        Category::findOrFail($id)->update([
-                'title'=>$request->title,
-                'description'=>$request->description,
+        $test = DB::table('categories')  ->where([
+            ['id', '=', $id],
+        ])
+        ->update([
+            'title' => $request->title,
+            'description'=> $request->description,
         ]);
         return redirect()->back()->with('status','Category Updated');
         
