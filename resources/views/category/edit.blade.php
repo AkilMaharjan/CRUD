@@ -1,8 +1,5 @@
 
-   {{-- <x-slot name="title" >
-   Add Categories 
-   </x-slot> --}}
-
+  
 
  <div class ="container mt-5">
         <div class="row">
@@ -14,18 +11,19 @@
                     </div>
                 @endif
                 <div class="card-header">
-                    <h4>Add Categories
+                    <h4>Edit Categories
                         <a href="{{ url('categories')}}" class="btn btn-primary float-end">Back</a>
                     </h4>
                 <div>
             </div>
         </div>
             <div class="card-body">
-                <form action="{{url('categories/create')}}" method="POST">
+                <form action="{{url('categories/'.$category->id.'/edit')}}" method="POST">
                         @csrf
+                        @method('PUT')
                         <div class="mb-3">
                             <label >Title</label>
-                            <input type="text" name="title" value="{{old('name')}}">
+                            <input type="text" name="title" value="{{$category->title}}">
                             @error('title')
                             <span class="text-danger">{{$message}}</span>
                                 
@@ -34,14 +32,14 @@
 
                         <div class="mb-3">
                             <label>Description</label>
-                            <textarea name="description" class="form=control" rows="2">{{old('description')}}</textarea>
+                            <textarea name="description" class="form=control" rows="2">{{$category->description}}</textarea>
                              @error('description')
                             <span class="text-danger">{{$message}}</span>
                                 
                             @enderror
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
 
                 </form>
