@@ -25,16 +25,27 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'title'=>'required | max: 15 |string',
             'description'=> 'required|max:100| string',
+            'image'=> 'required|mimes:jpeg,jpg,png,gif|max:1000'
         ]);
 
+        // // upload image
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('assets'),$imageName);
+    
+       
         Category::create([
-            'title' => $request->title,
-            'description'=> $request->description,
+        'title' => $request->title,
+        'description' => $request->description,
+        'image' => $imageName,
         ]);
-        return redirect('categories/create')->with('status','Category Created');
+
+
+   
+        return redirect('products')->with('status','Category Created');
     }
 
     public function edit( int $id)
@@ -45,7 +56,9 @@ class CategoryController extends Controller
 
     public function update(Request $request , int $id)
     {
-        // dd($request->all(), $id);
+        
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('assets'),$imageName);
 
         $test = DB::table('categories')  ->where([
             ['id', '=', $id],
@@ -53,6 +66,7 @@ class CategoryController extends Controller
         ->update([
             'title' => $request->title,
             'description'=> $request->description,
+            'image'=> $imageName,
         ]);
         return redirect()->back()->with('status','Category Updated');
         
